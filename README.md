@@ -3,7 +3,7 @@ Bu Python reposu, görüntü işleme tekniklerinin Python kullanılarak uyguland
 
 Anahtar Özellikler:
 
-##Blob Tespiti: Görüntülerdeki blobları veya ilgi alanlarını tespit etmek ve analiz etmek için uygulamalar.
+## Blob Tespiti: Görüntülerdeki blobları veya ilgi alanlarını tespit etmek ve analiz etmek için uygulamalar.
 ##Çizgi Tespiti: Görüntülerdeki çizgileri ve çizgi segmentlerini tespit etme teknikleri, kenar tespiti ve nesne tanıma gibi çeşitli uygulamalar için yararlıdır.
 ##Contour Analizi: Görüntülerdeki konturları çıkarma, analiz etme ve manipüle etme araçları, şekil tanıma ve nesne bölütleme gibi görevler için kullanışlıdır.
 ##Daire Tespiti: Görüntülerdeki daireleri ve dairesel desenleri tespit etme algoritmaları, nesne yerelleştirme ve özellik çıkarma gibi görevler için değerlidir.
