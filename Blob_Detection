@@ -1,0 +1,26 @@
+import numpy as np
+import cv2
+
+params = cv2.SimpleBlobDetector_Params()
+
+params.filterByArea=True #alana göre filtrelemek için
+params.minCircularity = 100 #minimum alan  100 olcak
+
+params.filterByCircularity = True #YUVARLAK OLSUN DEDİK
+params.minCircularity =0.5 #burdaki daireselliğe göre tespit ediyoruz
+
+detector = cv2.SimpleBlobDetector_create(params) #bi dedektör oluşturduk ve belirttiğimiz parametreleri bunun içine input olarak yerleştirdik
+
+
+im = cv2.imread('images/kivi.jpg')
+#im = cv2.GaussianBlur(im,(15,15),0) # gaussian blur kullanmadığımız için sadece iki tane blob bulduk
+
+keypoints = detector.detect(im) #detect fonksiyonu çağırdık
+
+im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+
+
+
+cv2.imshow("blobs", im_with_keypoints)
+if cv2.waitKey(0) & 0xff == 27:
+    cv2.destroyAllWindows()
