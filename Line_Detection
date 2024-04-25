@@ -1,0 +1,26 @@
+import cv2
+import numpy as np
+
+img = cv2.imread('shapes.jpg')
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+edges = cv2.Canny(gray, 50, 150)
+
+cv2.imshow('edges', edges)
+
+rho = 0.02  # Hough dönüşüm parametresi: rho çözünürlüğü
+theta = np.pi / 180  # Hough dönüşüm parametresi: teta çözünürlüğü
+threshold = 3  # Hough dönüşüm parametresi: çizgi tanıma eşiği
+min_line_length = 50  # Hough dönüşüm parametresi: minimum çizgi uzunluğu
+max_line_gap = 10  # Hough dönüşüm parametresi: maksimum çizgi boşluğu
+
+lines = cv2.HoughLinesP(image=edges, rho=rho, theta=theta, threshold=threshold, minLineLength=min_line_length, maxLineGap=max_line_gap)
+
+for line in lines:
+    for x1, y1, x2, y2 in line:
+        cv2.line(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
+
+cv2.imshow('result', img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
