@@ -1,0 +1,30 @@
+import cv2
+import numpy as np
+
+# Resmi yükle
+a = cv2.imread('shapes.jpg')
+
+# Gri tonlamalı bir versiyonunu oluştur
+a = cv2.GaussianBlur(a,(3,3),0)
+gray = cv2.cvtColor(a, cv2.COLOR_BGR2GRAY)
+
+# Hough dönüşüm parametreleri
+dp = 1
+minDist = 50  # Bulunan dairelerin merkezleri arasındaki minimum mesafe
+
+# Hough dairelerini tespit et
+circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, dp, minDist,
+                           param1=50, param2=30, minRadius=50, maxRadius=300)
+
+# Tespit edilen daireleri yuvarla ve tamsayıya dönüştür
+circles = np.uint16(np.around(circles))
+
+# Tespit edilen daireleri işaretle
+for i in circles[0, :]:
+    cv2.circle(a, (i[0], i[1]), i[2], (0, 255, 0), 2)  # Dairenin etrafına çember çiz
+    cv2.circle(a, (i[0], i[1]), 2, (0, 255, 0), 3)  # Dairenin merkezini işaretle
+
+# Sonuçları ekranda göster
+cv2.imshow('detected circles', a)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
