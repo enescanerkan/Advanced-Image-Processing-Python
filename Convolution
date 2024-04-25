@@ -1,0 +1,30 @@
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('morp.png')
+
+kernel = np.ones((5,5), np.float32)/25  #5 e5 lik bir kernel yani matris oluşturduk daha sonra bunu 25 böldük daha sonra bizim görüntümüzle kernel matrisini çaprtık
+
+#dst = cv2.blur(img, (5,5)) #dst = destination ,hazır bir fonksiyon blur
+
+#dst = cv2.filter2D(img,-1,kernel) # üstteki blur yerine filter2D fonksiyonuna kernel ı tanımlayarakta yapabiliriz.
+
+#dst = cv2.GaussianBlur(img,(5,5),0) #gaussian matrisini kullanarak yaptık merkeze yakın olan piksellerin etkisi daha fazla oldu
+
+#dst = cv2.medianBlur(img,5) #yine bi boyut vererek o boyuttaki ortancayı buruyor
+
+#kenar - köşe bulmak için x ekseninde
+
+#laplacian filtre de her iksini hem x hem y ekseninde uygulayan filtre
+laplacian =np.array((
+    [0, 1, 0],
+    [1, -4, 1],
+    [0, 1, 0]), dtype="int")
+dst = cv2.filter2D(img,-1,laplacian) #yukarıda yazdığımız sobel filtresini filter2D fonksiyonu ile tanımlayarak uyguladık görüntümüze.Eğer y ekseninde yapcaksak sobely x te yapcaksak sobelx yaz.eğer laplacian uygulayasan da laplacian yaz
+plt.subplot(121), plt.imshow(img), plt.title('Original')
+plt.xticks([]), plt.yticks([])
+plt.subplot(122), plt.imshow(dst), plt.title('Processed')
+plt.xticks([]), plt.yticks([])
+plt.show()
+
