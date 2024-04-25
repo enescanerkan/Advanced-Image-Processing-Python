@@ -1,0 +1,25 @@
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('images/kivi.jpg',0) #görüntüyü açtık buradaki 0 görüntünün sadece 0. bandını okuyoruz normalde RGB 3 band ken 0. bandı okuyarak gri scale bir görüntü oluşturduk
+plt.imshow(img) #matplot kütüphanesi kullanarak ekranda gösterdik
+
+ret,th1 =cv2.threshold(img,50,255,cv2.THRESH_BINARY) # piksel değeri 50 den büyükleri 255 yap diğerlerini sıfır yap yani siyah beyaz
+
+th2 = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_MEAN_C,\
+                            cv2.THRESH_BINARY,5,2) #burada ise 5,2 komşuluk alanı verildi her piksel için bu alan için kendin bir threshold değeri ver ortalamaya göre o alana eşik değeri uyguladık.
+
+th3 = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
+                            cv2.THRESH_BINARY,23,2) #yine bir eşik değeri belirle gauss belirle merkeze daha yakın olan piksel değerlerin ağırlığı daha fazla ol ortalamada tüm dikdörtgenin içindeki merkeze yakın pikselleri aldık.
+
+ret4,th4 = cv2.threshold(img,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU) #daha gelişmiş bir yöntem kendi bir eşik değer buluyor görüntünün histogramını bulup ani değişimlerinin olduğu yere tepe noktaları diyor ve eşik değeri buluyor görüntüyü ön ve arka plan olarak ayırıyor.
+
+titles=['GENEL ESİKDEGERİ','ADAPTİVE MEAN ESİKDEGERİ','ADAPTİVE GAUSSİAN ESİGDEĞERİ','OTSU']
+
+images = [th1,th2,th3,th4]
+for i in range(4): #4 resimi de göstermek için
+    plt.subplot(2,2,i+1),plt.imshow(images[i],'gray') #matlab da ki gibi 2,2,1 2,2,2 2,2,3 2,2,4 gibi yazdık.
+    plt.title(titles[i])
+    plt.xticks([]),plt.yticks([])
+plt.show()
