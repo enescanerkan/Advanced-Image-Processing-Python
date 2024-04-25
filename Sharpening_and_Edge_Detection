@@ -1,0 +1,15 @@
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+
+img = cv2.imread('foto.jpg')
+img_sharpened = cv2.imread('sharpened.jpg') #oluşturduğumuz sharpened.jpg görüntüsünün kenarlarına bakıcaz keskinleştirdikten sonraki haline.
+
+edges = cv2.Canny(img,100,200)
+edges_sharpened = cv2.Canny(img_sharpened,100,200)
+plt.subplot(121),plt.imshow(edges,cmap = 'gray')
+plt.title('kenarların Original görüntüsü'), plt.xticks([]), plt.yticks([])#sadece kenar bulduğumuz görüntü
+plt.subplot(122),plt.imshow(edges_sharpened,cmap = 'gray')
+plt.title('kenarların keskinleştirilmiş görüntüsü'), plt.xticks([]), plt.yticks([]) #keskinleştirip kenar bulduğumuz görüntü
+plt.show()
