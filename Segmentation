@@ -1,0 +1,33 @@
+import cv2
+import numpy as np
+
+frame = cv2.imread('images/meyve.jpg')  # coins.jpg görüntüsünü okuduk eğer "coins.jpg",0 diyince tek bantlı oluyor ama bu şekilde yapınca RGB olarak okuyoruz
+
+gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)  # opencv de RGB DEĞİL BGR OLARAK GEÇİYOR. cvtColor ile gri renge dönüştürdük.
+thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]  # eşik değeri buldu
+
+
+kernel = np.ones((5,5), np.uint8)
+closing = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE,  # morfolojik kapama uyguladık
+                           kernel, iterations=4)
+closing_img = closing.copy()
+
+contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  # bulunan eşik değeriyle binary bir görüntü verdik finContours fonskiyonuyla kontürleri buldu.
+
+for cnt in contours:  # contours da ki her bir kontürü cnt ye atadık
+
+    area = cv2.contourArea(cnt)  # verdiğimiz kontürün alanını buluyor
+
+    if area < 100:  # 100 den küçükse bir sonraki adıma geç dolayısıyla 100 den küçükleri geçicez
+        continue
+    print(area)
+
+    ellipse = cv2.fitEllipse(cnt)  # kontürü çevreleyen bir elips bul ve bu elipsi çizdir
+    cv2.ellipse(frame, ellipse, (0, 255, 0), 2)  # orijinal görüntü içinde kontürleri ve elipsleri çizdir
+
+cv2.imshow("Otsu Thresholding", thresh)
+cv2.imshow("Morphological Closing", closing)
+cv2.imshow("Contours", frame)
+
+if cv2.waitKey(0) & 0xff == 27:
+    cv2.destroyAllWindows()
