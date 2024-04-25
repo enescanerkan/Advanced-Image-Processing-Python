@@ -1,0 +1,37 @@
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('open.png',0) #tek fazını aldık 0 diyerek
+#img = cv2.medianBlur(img,5)
+
+n = 6 #tüm elemanları 1 olan 6,6 lık bir kernel
+kernel = np.ones((n,n),np.uint8) #kernel tanımladık aşağıdaki aşındırma ve yayma uygulayacağız.
+
+erosion = cv2.erode(img,kernel,iterations = 1) #beyazlıkları küçülttük, iterations u arttıkdıkça erezyonu daha fazla uygulayarak daha fazla aşındırıyoruz.
+dilation = cv2.dilate(img,kernel,iterations = 1) #artırdık
+
+
+#closing = cv2.dilate(img,kernel,iterations = 1)
+#closing = cv2.erode(closing,kernel,iterations = 1)
+closing = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel) #tek bir kodla üstteki iki kodu da yazabiliriz
+
+#opening = cv2.erode(img,kernel,iterations = 1)
+#opening = cv2.dilate(opening,kernel,iterations = 1)
+opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel) #morphologyEx fonksiyonu ile ikisini kullan dedik birinci ve ikinci satırdaki sonrasında uyguladı.
+
+
+plt.subplot(231),plt.imshow(img),plt.title('Original') # matlabta ki gibi satır sütun ve hangi sırada olcağını 131 132 133 şeklinde yazıyoruz^^
+plt.xticks([]),plt.yticks([])
+plt.subplot(232),plt.imshow(erosion),plt.title('erosion')
+plt.xticks([]),plt.yticks([])
+plt.subplot(233),plt.imshow(dilation),plt.title('dilate')
+plt.xticks([]),plt.yticks([])
+plt.subplot(234),plt.imshow(closing),plt.title('morphologyEx')
+plt.xticks([]),plt.yticks([])
+plt.subplot(236),plt.imshow(opening),plt.title('morphologyExs')
+plt.xticks([]),plt.yticks([])
+
+
+
+plt.show() #plt fonksiyonundaki show u kullanıyoruz.
